@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>才30 · EP01 · 怀孕｜大纲</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c1210;
+      --bg-elev: #141c19;
+      --ink: #e8efe9;
+      --muted: #8fa399;
+      --faint: #5c6f64;
+      --line: rgba(232, 239, 233, 0.1);
+      --teal: #2dd4a8;
+      --teal-dim: rgba(45, 212, 168, 0.14);
+      --amber: #e8b86d;
+      --danger: #f07178;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", "Instrument Sans", system-ui, sans-serif;
+      background:
+        radial-gradient(900px 480px at 10% -10%, rgba(45, 212, 168, 0.12), transparent 55%),
+        radial-gradient(700px 400px at 100% 0%, rgba(232, 184, 109, 0.08), transparent 50%),
+        var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 40px 22px 96px; }
+    .crumb {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .crumb a { color: var(--muted); }
+    .crumb a:hover { color: var(--teal); }
+    .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .badge {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+      padding: 4px 10px; border-radius: 999px;
+      background: var(--teal-dim); color: var(--teal);
+      border: 1px solid rgba(45, 212, 168, 0.25);
+    }
+    .badge.warn { background: rgba(232,184,109,0.12); color: var(--amber); border-color: rgba(232,184,109,0.28); }
+    h1 {
+      font-family: "Instrument Sans", "Noto Sans SC", sans-serif;
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .lede {
+      font-size: 17px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg-elev);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      margin-bottom: 40px;
+    }
+    .meta dt { font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: 0.06em; }
+    .meta dd { font-size: 14px; font-weight: 600; margin-top: 2px; }
+    section { margin-bottom: 40px; }
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    h3 { font-size: 15px; font-weight: 700; color: var(--teal); margin: 18px 0 8px; }
+    p, li { font-size: 15px; color: var(--ink); }
+    p { margin-bottom: 12px; }
+    ul, ol { padding-left: 1.2em; margin-bottom: 12px; }
+    li { margin-bottom: 6px; color: var(--muted); }
+    li strong { color: var(--ink); }
+    .thesis {
+      background: linear-gradient(135deg, rgba(45,212,168,0.1), rgba(232,184,109,0.06));
+      border: 1px solid rgba(45, 212, 168, 0.22);
+      border-radius: 16px;
+      padding: 20px 22px;
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 12px 0 20px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th { background: var(--bg-elev); color: var(--muted); font-weight: 600; width: 50%; }
+    .seg {
+      background: var(--bg-elev);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+    }
+    .seg-time {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .seg h3 { margin-top: 0; color: var(--ink); }
+    .quote {
+      border-left: 3px solid var(--teal);
+      padding: 8px 0 8px 16px;
+      color: var(--muted);
+      font-style: italic;
+      margin: 10px 0;
+    }
+    .disclaimer {
+      font-size: 13px;
+      color: var(--faint);
+      background: rgba(240,113,120,0.08);
+      border: 1px solid rgba(240,113,120,0.2);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .open q {
+      display: block;
+      background: var(--bg-elev);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      border: 1px solid var(--line);
+      font-size: 14px;
+      color: var(--muted);
+    }
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--faint);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="crumb">
+      <a href="../index.html">才岁播客</a>
+      <span>/</span>
+      <a href="../index.html?series=cai30">才30</a>
+      <span>/</span>
+      <span>EP01 怀孕</span>
+    </nav>
+
+    <div class="badge-row">
+      <span class="badge">大纲 v0.1</span>
+      <span class="badge warn">社会议题主线</span>
+      <span class="badge">35–45 分钟</span>
+    </div>
+
+    <h1>怀孕</h1>
+    <p class="lede">工作标题：才30 · 怀孕：不是十月怀胎，是一场社会谈判</p>
+
+    <dl class="meta">
+      <div><dt>系列</dt><dd>才30 · 第 1 / 12 篇</dd></div>
+      <div><dt>计划月份</dt><dd>2026-10</dd></div>
+      <div><dt>状态</dt><dd>初步大纲 · 可迭代</dd></div>
+      <div><dt>源文件</dt><dd><a href="../outlines/cai30-ep01-pregnancy.md">Markdown</a></dd></div>
+    </dl>
+
+    <div class="thesis">
+      三十代谈「怀孕」，真正难的不是「身体怎么怀」，而是：谁在什么时间窗口、付出什么代价、承担什么社会污名，才被允许把这件事做成。
+    </div>
+
+    <p class="disclaimer">
+      本集不构成医疗建议。涉及生育力与妊娠风险的数字，仅作公共讨论的事实锚点；个人决策请咨询正规医疗机构。
+    </p>
+
+    <section>
+      <h2>本期边界</h2>
+      <table>
+        <thead><tr><th>不是</th><th>是</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>产检表、营养清单、好物种草</td>
+            <td>怀孕作为<strong>社会事件</strong>的结构拆解</td>
+          </tr>
+          <tr>
+            <td>替听众决定「要不要生」</td>
+            <td>提供可复用的判断框架与语言</td>
+          </tr>
+          <tr>
+            <td>恐吓式「过了 35 就来不及」</td>
+            <td>区分医学概率、职场惩罚、家庭期待三套时钟</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>五条核心论点</h2>
+      <ol>
+        <li><strong>「才30」是错觉窗口</strong>：口语还年轻，制度与市场里 30–35 常是晋升与生育的挤压带。</li>
+        <li><strong>准妈妈惩罚可提前兑现</strong>：不必真怀孕，被标成「可能怀孕」即可在招聘晋升中打折。</li>
+        <li><strong>战略性备孕是症状</strong>：暴露产假保障与企业效能冲突；个体博弈治不好集体信任损伤。</li>
+        <li><strong>双重时钟</strong>：生物钟与事业钟不同步时，焦虑常被误读成个人不够努力。</li>
+        <li><strong>亲密关系的隐形合同</strong>：孕产期的情绪劳动与职业风险，很少被预先谈判。</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>调研摘要</h2>
+      <h3>A. 身体与年龄（底线，不展开成教程）</h3>
+      <ul>
+        <li>生育力约 30 岁前后缓慢下降，<strong>35 岁后加快</strong>；≥35 是临床关注点，不是「当天断崖」。</li>
+        <li>公共科普常用：30 岁左右健康女性单周期自然受孕约两成量级；年龄上升伴随非整倍体与流产风险上升（ASRM《年龄和生育能力》等）。</li>
+        <li>Mayo Clinic 等共识：35 岁后可能更难受孕、并发症相对升高——大量健康结局仍存在，关键是知情与准备，不是宿命。</li>
+      </ul>
+      <h3>B. 中国城市语境（主线）</h3>
+      <ul>
+        <li><strong>职业—生育倒计时（Career–Fertility Countdown）</strong>：加班文化 + 年龄歧视，把上升通道与生育压进窄窗（GWO 相关研究）。</li>
+        <li><strong>准妈妈惩罚</strong>：未育也被按「未来请假风险」预支定价。</li>
+        <li>舆论中的<strong>战略性备孕</strong>：嵌进裁员潮、合同与晋升周期——个体自保，也可能加剧「招女性=高风险」循环。</li>
+        <li>鼓励生育的政策信号 vs 职场惩罚结构并存，形成互相打架的社会指令。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>口播结构</h2>
+
+      <div class="seg">
+        <div class="seg-time">0:00 – 2:00 · 冷开场</div>
+        <h3>排期问题</h3>
+        <p class="quote">「同事悄悄问：你打算哪年生？不是关心你，是在算团队排期。」</p>
+        <p>抛出：三十代怀孕，是私事、家事，还是职场风险管理科目？</p>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">2:00 – 10:00 · 第一段</div>
+        <h3>命名战争</h3>
+        <ul>
+          <li>「怀孕」在医生 / 家庭 / HR / 道德话语里分别意味着什么</li>
+          <li>「才30」话术并置招聘年龄墙与「35 岁现象」</li>
+          <li>产出：听众能说出「我被哪套语言绑架了」</li>
+        </ul>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">10:00 – 20:00 · 第二段</div>
+        <h3>职业—生育倒计时</h3>
+        <ul>
+          <li>时间制度如何挤压双目标</li>
+          <li>准妈妈惩罚；战略性备孕的利弊与反噬</li>
+          <li><strong>边界</strong>：分析结构，不提供规避劳动法或造假话术</li>
+        </ul>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">20:00 – 28:00 · 第三段</div>
+        <h3>身体时钟：恐吓换成刻度</h3>
+        <ul>
+          <li>30 / 35 / 40 三个公共科普刻度</li>
+          <li>辅助生殖不是无限延期器；男性因素常被忽略</li>
+          <li>口头给出 3–5 条「该问医生的问题」，不做检查大全</li>
+        </ul>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">28:00 – 38:00 · 第四段</div>
+        <h3>亲密关系里的隐形合同</h3>
+        <ul>
+          <li>陪产、夜醒、情绪劳动默认归谁</li>
+          <li>「支持你生」vs「愿意损失自己的晋升窗口」</li>
+          <li>可选：不想生的人如何顶住道德绑架</li>
+        </ul>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">38:00 – 45:00 · 收束</div>
+        <h3>三栏决策地图</h3>
+        <ol>
+          <li><strong>身体栏</strong>：是否已做基础评估（有计划者）</li>
+          <li><strong>组织栏</strong>：合同、晋升、替岗与惩罚来源</li>
+          <li><strong>关系栏</strong>：经济、时间、情绪劳动是否谈过共同协议</li>
+        </ol>
+        <p class="quote">「怀孕可以是选择，但选择的成本从不是私人的——它写在劳动合同、户口本和饭桌闲话里。」</p>
+      </div>
+    </section>
+
+    <section class="open">
+      <h2>待你迭代的开放问题</h2>
+      <q>1. 叙述身份：本人经历向，还是观察者/研究者向？</q>
+      <q>2. 是否另开「备孕医学入门」，把本期彻底留在社会议题？</q>
+      <q>3. 「才30」里怀孕相关要拆几集？（怀孕 / 产假回归 / 育儿成本）</q>
+      <q>4. 平台：小宇宙优先，还是先文字稿 + 口述？</q>
+      <q>5. 标题偏锐利还是中性？</q>
+    </section>
+
+    <section>
+      <h2>参考来源（大纲级）</h2>
+      <ul>
+        <li>Racing Against a Career–Fertility Countdown（Gender, Work &amp; Organization）</li>
+        <li>Dual Clocks, Triangulated Self（GWO）</li>
+        <li>WHO Bulletin：中国已婚女性生育史与意愿相关讨论</li>
+        <li>ASRM《年龄和生育能力》；Mayo Clinic「35 岁后怀孕」科普</li>
+        <li>国内媒体「战略性备孕」社会切片（不作操作指南）</li>
+      </ul>
+    </section>
+
+    <footer>
+      才岁播客 · 十年一期系列 · 大纲可随时改 ·
+      <a href="../index.html">返回首页</a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>才岁播客 · 十年一期</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0c1210;
+      --surface: rgba(255,255,255,0.035);
+      --border: rgba(232,239,233,0.1);
+      --text: #e8efe9;
+      --text-secondary: #8fa399;
+      --text-muted: #5c6f64;
+      --accent: #2dd4a8;
+      --accent-warm: #e8b86d;
+      --card-hover: rgba(45,212,168,0.08);
+    }
+    body {
+      font-family: "Noto Sans SC", "Instrument Sans", system-ui, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .hero {
+      position: relative;
+      padding: 72px 24px 40px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      width: 720px;
+      height: 720px;
+      background: radial-gradient(circle, rgba(45,212,168,0.14) 0%, transparent 68%);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 10%;
+      right: -10%;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(232,184,109,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .eyebrow {
+      position: relative;
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      position: relative;
+      font-family: "Instrument Sans", "Noto Sans SC", sans-serif;
+      font-size: clamp(40px, 8vw, 64px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 14px;
+      background: linear-gradient(120deg, #e8efe9 20%, #2dd4a8 70%, #e8b86d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      position: relative;
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      padding: 8px 24px 40px;
+      flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .controls {
+      max-width: 1080px;
+      margin: 0 auto 28px;
+      padding: 0 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .chip {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-secondary);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .chip:hover { border-color: rgba(45,212,168,0.4); color: var(--text); }
+    .chip.active {
+      background: rgba(45,212,168,0.16);
+      border-color: rgba(45,212,168,0.45);
+      color: var(--accent);
+    }
+
+    .series-strip {
+      max-width: 1080px;
+      margin: 0 auto 40px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .series-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .series-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--accent-color, var(--accent));
+    }
+    .series-card:hover, .series-card.active {
+      background: var(--card-hover);
+      border-color: rgba(45,212,168,0.35);
+      transform: translateY(-2px);
+    }
+    .series-card h2 {
+      font-family: "Instrument Sans", "Noto Sans SC", sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+    .series-meta {
+      font-size: 12px;
+      color: var(--accent-warm);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .series-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .series-status {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .series-status.on { color: var(--accent); }
+
+    .section-head {
+      max-width: 1080px;
+      margin: 0 auto 16px;
+      padding: 0 24px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .section-head h3 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .section-head span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .grid {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .ep-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+      min-height: 200px;
+    }
+    .ep-card:hover {
+      background: var(--card-hover);
+      border-color: rgba(45,212,168,0.35);
+      transform: translateY(-2px);
+    }
+    .ep-card.slot {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+    .ep-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .ep-no {
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+    .ep-status {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(45,212,168,0.12);
+      color: var(--accent);
+    }
+    .ep-status.slot {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+    }
+    .ep-card h4 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .ep-card .summary {
+      font-size: 13px;
+      color: var(--text-secondary);
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 7px;
+    }
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 0 24px 48px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">Decade Podcast Archive</div>
+    <h1>才岁</h1>
+    <p>每隔十年做一组系列播客：每系列 12 篇，每月一篇。从「才30」开始，谈年龄段与社会之间那些说不清又躲不开的问题。</p>
+  </header>
+
+  <div class="stats-bar" id="stats">
+    <div class="stat-item"><div class="stat-num" id="stat-series">0</div><div class="stat-label">系列</div></div>
+    <div class="stat-item"><div class="stat-num" id="stat-eps">0</div><div class="stat-label">计划篇目</div></div>
+    <div class="stat-item"><div class="stat-num" id="stat-ready">0</div><div class="stat-label">已有大纲</div></div>
+  </div>
+
+  <div class="controls" id="chips"></div>
+  <div class="series-strip" id="series"></div>
+
+  <div class="section-head">
+    <h3 id="list-title">全部篇目</h3>
+    <span id="list-sub">按系列与期数排列</span>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <footer>GitHub Pages · docs/ · 结构对齐 bilibili-workshop 索引墙</footer>
+
+  <script>
+    const STATUS_LABEL = {
+      outline: '大纲',
+      draft: '草稿',
+      published: '已发布',
+      slot: '空位'
+    };
+
+    let seriesList = [];
+    let episodes = [];
+    let activeSeries = 'all';
+
+    function qsSeries() {
+      const p = new URLSearchParams(location.search).get('series');
+      return p || 'all';
+    }
+
+    function setSeries(id, push = true) {
+      activeSeries = id;
+      if (push) {
+        const url = new URL(location.href);
+        if (id === 'all') url.searchParams.delete('series');
+        else url.searchParams.set('series', id);
+        history.replaceState(null, '', url);
+      }
+      renderChips();
+      renderSeries();
+      renderEpisodes();
+    }
+
+    function renderStats() {
+      document.getElementById('stat-series').textContent = seriesList.length;
+      document.getElementById('stat-eps').textContent = episodes.length;
+      document.getElementById('stat-ready').textContent =
+        episodes.filter(e => e.status !== 'slot').length;
+    }
+
+    function renderChips() {
+      const el = document.getElementById('chips');
+      const items = [{ id: 'all', title: '全部系列' }, ...seriesList];
+      el.innerHTML = items.map(s =>
+        `<button class="chip ${activeSeries === s.id ? 'active' : ''}" data-id="${s.id}">${s.title}</button>`
+      ).join('');
+      el.querySelectorAll('.chip').forEach(btn => {
+        btn.addEventListener('click', () => setSeries(btn.dataset.id));
+      });
+    }
+
+    function renderSeries() {
+      const el = document.getElementById('series');
+      el.innerHTML = seriesList.map(s => {
+        const active = activeSeries === s.id ? 'active' : '';
+        const on = s.status === 'active';
+        return `
+          <article class="series-card ${active}" data-id="${s.id}" style="--accent-color:${s.cover_accent || '#2dd4a8'}">
+            <h2>${s.title}</h2>
+            <div class="series-meta">${s.decade_label} · ${s.age_span} · ${s.planned_episodes} 篇 · ${s.interval}</div>
+            <p>${s.theme}</p>
+            <div class="series-status ${on ? 'on' : ''}">${on ? '进行中' : '计划中'}</div>
+          </article>`;
+      }).join('');
+      el.querySelectorAll('.series-card').forEach(card => {
+        card.addEventListener('click', () => setSeries(card.dataset.id));
+      });
+    }
+
+    function renderEpisodes() {
+      const list = activeSeries === 'all'
+        ? episodes
+        : episodes.filter(e => e.series === activeSeries);
+
+      const title = document.getElementById('list-title');
+      const sub = document.getElementById('list-sub');
+      if (activeSeries === 'all') {
+        title.textContent = '全部篇目';
+        sub.textContent = `${list.length} 篇`;
+      } else {
+        const s = seriesList.find(x => x.id === activeSeries);
+        title.textContent = s ? s.title : activeSeries;
+        sub.textContent = `${list.length} / 12 · ${s ? s.theme : ''}`;
+      }
+
+      const grid = document.getElementById('grid');
+      if (!list.length) {
+        grid.innerHTML = '<div class="empty">这个系列还没有篇目。</div>';
+        return;
+      }
+
+      grid.innerHTML = list.map(ep => {
+        const isSlot = ep.status === 'slot';
+        const href = ep.outputs && ep.outputs.outline ? ep.outputs.outline : null;
+        const tagHtml = (ep.tags || []).slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('');
+        const inner = `
+          <div class="ep-top">
+            <span class="ep-no">${ep.series_title || ''} · EP${String(ep.episode).padStart(2, '0')}</span>
+            <span class="ep-status ${isSlot ? 'slot' : ''}">${STATUS_LABEL[ep.status] || ep.status}</span>
+          </div>
+          <h4>${ep.title}</h4>
+          <p class="summary">${ep.summary || ''}</p>
+          <div class="tags">${tagHtml}</div>
+          ${ep.planned_month ? `<div class="tag" style="align-self:flex-start;margin-top:4px">计划 ${ep.planned_month}</div>` : ''}
+        `;
+        if (href && !isSlot) {
+          return `<a class="ep-card" href="${href}">${inner}</a>`;
+        }
+        return `<div class="ep-card slot">${inner}</div>`;
+      }).join('');
+    }
+
+    async function boot() {
+      const [sRes, eRes] = await Promise.all([
+        fetch('series.json'),
+        fetch('episodes.json')
+      ]);
+      seriesList = await sRes.json();
+      episodes = await eRes.json();
+      episodes.sort((a, b) => {
+        if (a.series !== b.series) return a.series.localeCompare(b.series);
+        return a.episode - b.episode;
+      });
+      renderStats();
+      setSeries(qsSeries(), false);
+    }
+
+    boot().catch(err => {
+      document.getElementById('grid').innerHTML =
+        `<div class="empty">加载失败：${err.message}</div>`;
+    });
+  </script>
+</body>
+</html>

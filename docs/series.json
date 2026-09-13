@@ -1,0 +1,35 @@
+[
+  {
+    "id": "cai30",
+    "title": "才30",
+    "age_span": "31–40",
+    "decade_label": "三十代",
+    "status": "active",
+    "planned_episodes": 12,
+    "interval": "每月1篇",
+    "theme": "三十代的身体、关系与社会契约：在「还年轻」与「该定型」之间，把话说清楚。",
+    "cover_accent": "#1a6b5c"
+  },
+  {
+    "id": "cai40",
+    "title": "才40",
+    "age_span": "41–50",
+    "decade_label": "四十代",
+    "status": "planned",
+    "planned_episodes": 12,
+    "interval": "每月1篇",
+    "theme": "四十代的责任密度、身体折旧与重新谈判人生剧本。",
+    "cover_accent": "#3d5a80"
+  },
+  {
+    "id": "cai50",
+    "title": "才50",
+    "age_span": "51–60",
+    "decade_label": "五十代",
+    "status": "planned",
+    "planned_episodes": 12,
+    "interval": "每月1篇",
+    "theme": "五十代的权力交接、健康账本与「还来得及」的边界。",
+    "cover_accent": "#7c5e3b"
+  }
+]
