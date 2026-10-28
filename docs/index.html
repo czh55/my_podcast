@@ -300,6 +300,91 @@
       font-size: 14px;
     }
 
+    .principles {
+      max-width: 1080px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+    }
+    .principles-intro {
+      margin-bottom: 20px;
+    }
+    .principles-intro h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .principles-intro p {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 560px;
+    }
+    .principle-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+    .principle {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .principle-no {
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--accent);
+      line-height: 1.1;
+      padding-top: 2px;
+    }
+    .principle-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .principle-lede {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-warm);
+      margin-bottom: 10px;
+    }
+    .principle-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 720px;
+    }
+    .principle-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+      max-width: 720px;
+    }
+    .principle-points li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      padding-left: 14px;
+      border-left: 2px solid rgba(45,212,168,0.35);
+    }
+    .principle-points strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    @media (max-width: 560px) {
+      .principle {
+        grid-template-columns: 40px 1fr;
+        gap: 8px 14px;
+      }
+      .principle-no { font-size: 22px; }
+    }
+
     footer {
       text-align: center;
       padding: 0 24px 48px;
@@ -324,6 +409,14 @@
   <div class="controls" id="chips"></div>
   <div class="series-strip" id="series"></div>
 
+  <section class="principles" id="principles" aria-labelledby="principles-heading">
+    <div class="principles-intro">
+      <h3 id="principles-heading">构思准则</h3>
+      <p>做内容时持续打磨的判断标准——会随经验积累不断完善。</p>
+    </div>
+    <div class="principle-list" id="principle-list"></div>
+  </section>
+
   <div class="section-head">
     <h3 id="list-title">全部篇目</h3>
     <span id="list-sub">按系列与期数排列</span>
@@ -342,7 +435,46 @@
 
     let seriesList = [];
     let episodes = [];
+    let principles = [];
     let activeSeries = 'all';
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function renderPrinciples() {
+      const el = document.getElementById('principle-list');
+      if (!principles.length) {
+        el.innerHTML = '<div class="empty" style="padding:24px 0">准则还在酝酿中。</div>';
+        return;
+      }
+      el.innerHTML = principles.map((p, i) => {
+        const no = String(i + 1).padStart(2, '0');
+        const points = (p.points || []).map(pt =>
+          `<li><strong>${escapeHtml(pt.label)}</strong>：${escapeHtml(pt.text)}</li>`
+        ).join('');
+        const body = p.body
+          ? `<p class="principle-body">${escapeHtml(p.body)}</p>`
+          : '';
+        const pointsHtml = points
+          ? `<ul class="principle-points">${points}</ul>`
+          : '';
+        return `
+          <article class="principle" id="principle-${escapeHtml(p.id)}">
+            <div class="principle-no">${no}</div>
+            <div>
+              <h4 class="principle-title">${escapeHtml(p.title)}</h4>
+              ${p.lede ? `<div class="principle-lede">${escapeHtml(p.lede)}</div>` : ''}
+              ${body}
+              ${pointsHtml}
+            </div>
+          </article>`;
+      }).join('');
+    }
 
     function qsSeries() {
       const p = new URLSearchParams(location.search).get('series');
@@ -442,17 +574,20 @@
     }
 
     async function boot() {
-      const [sRes, eRes] = await Promise.all([
+      const [sRes, eRes, pRes] = await Promise.all([
         fetch('series.json'),
-        fetch('episodes.json')
+        fetch('episodes.json'),
+        fetch('principles.json')
       ]);
       seriesList = await sRes.json();
       episodes = await eRes.json();
+      principles = await pRes.json();
       episodes.sort((a, b) => {
         if (a.series !== b.series) return a.series.localeCompare(b.series);
         return a.episode - b.episode;
       });
       renderStats();
+      renderPrinciples();
       setSeries(qsSeries(), false);
     }
 
