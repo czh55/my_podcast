@@ -116,6 +116,16 @@ section { margin-bottom: 48px; }
   border-radius: 6px; padding: 1px 7px; cursor: pointer; white-space: nowrap;
 }
 .ts:hover { background: rgba(142, 47, 44, 0.16); }
+.ts.off { color: var(--faint); background: var(--paper-2); border-color: var(--line); cursor: help; text-decoration: line-through; }
+
+.versions { display: flex; gap: 6px; margin-bottom: 10px; }
+.versions button {
+  font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  padding: 5px 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--paper); color: var(--muted);
+}
+.versions button:hover { color: var(--bean); border-color: var(--bean-line); }
+.versions button.on { background: var(--bean); border-color: var(--bean); color: #fff8f0; }
 
 .meta {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;

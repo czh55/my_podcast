@@ -10,14 +10,17 @@
     "status": "edited",
     "planned_month": "2026-11",
     "date": "2026-11-22",
-    "duration": "62:04",
+    "duration": "65:47",
+    "duration_highlight": "28:03",
     "summary": "一个产品、一个研发：工具从五六个收敛成一个，代码越写越多却越来越少人看；国内外模型怎么选；提效了但问题解决了吗——一次“两天白干”的教训；裁员和 AI 的关系；有了 AI，人和人的差距反而被拉大。",
     "tags": ["AI", "产品", "研发", "职场", "裁员"],
     "outputs": {
       "outline": "episodes/bian-ep01-ai.html",
       "outline_draft": "outlines/podcast-ai-workplace-outline.html",
       "audio": "audio/bian-ep01-ai.mp3",
-      "data": "episodes/data/bian-ep01-ai.json"
+      "audio_highlight": "audio/bian-ep01-ai-highlight.mp3",
+      "data": "episodes/data/bian-ep01-ai.json",
+      "data_highlight": "episodes/data/bian-ep01-ai-highlight.json"
     }
   },
   {

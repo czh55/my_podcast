@@ -33,7 +33,8 @@
     <div class="badge-row">
       <span class="badge">EP01 · 已剪辑</span>
       <span class="badge warm">AI 的变化</span>
-      <span class="badge">62 分钟</span>
+      <span class="badge">精华版 28 分钟</span>
+      <span class="badge plain">原版 66 分钟</span>
     </div>
 
     <h1>站在工位上，看 AI 改变了什么</h1>
@@ -47,7 +48,11 @@
     </dl>
 
     <div class="player">
-      <audio id="audio" controls preload="metadata" src="../audio/bian-ep01-ai.mp3"></audio>
+      <div class="versions" id="versions">
+        <button type="button" data-v="highlight">精华版 · 28 分钟</button>
+        <button type="button" data-v="full">原版 · 66 分钟</button>
+      </div>
+      <audio id="audio" controls preload="metadata"></audio>
       <div class="now" id="now">点击下方任意时间戳跳转</div>
     </div>
 
@@ -65,48 +70,48 @@
       <h2>本期要点</h2>
 
       <div class="card point">
-        <h4><span class="ts" data-t="201">03:21</span> 五六个工具，收敛成一个 <span class="who">小陈</span></h4>
+        <h4><span class="ts" data-raw="220.5">03:21</span> 五六个工具，收敛成一个 <span class="who">小陈</span></h4>
         <p>写代码、上线、拉数据、做分析，原来要在不同 IDE 和 Excel 之间来回切；现在一个 AI 编辑器把整条链路串起来。</p>
-        <div class="eg">现在九成的工作时间都待在同一个 AI IDE 里；唯一不让它碰的是上线——不是做不到，是安全上主动隔离。<span class="ts" data-t="359">05:59</span></div>
+        <div class="eg">现在九成的工作时间都待在同一个 AI IDE 里；唯一不让它碰的是上线——不是做不到，是安全上主动隔离。<span class="ts" data-raw="403.9">05:59</span></div>
       </div>
 
       <div class="card point">
-        <h4><span class="ts" data-t="491">08:11</span> 代码越写越多，看代码的人越来越少 <span class="who">小陈 · 小李</span></h4>
+        <h4><span class="ts" data-raw="571.6">08:11</span> 代码越写越多，看代码的人越来越少 <span class="who">小陈 · 小李</span></h4>
         <p>两个原因：产出太快人看不过来；模型写代码的水平已经超过行业平均。研发拿到 PRD 先丢给本地模型理解，技术文档更多是写给下一轮 AI 看的。</p>
         <p>没被替代的部分：业务含义交叉很多的老系统——没人维护知识库之前，AI 反而更慢、更不准。</p>
       </div>
 
       <div class="card point">
-        <h4><span class="ts" data-t="931">15:31</span> 产品也能写代码了 <span class="who">小李</span></h4>
+        <h4><span class="ts" data-raw="1034.9">15:31</span> 产品也能写代码了 <span class="who">小李</span></h4>
         <p>以前产品对研发依赖很深，上个需求要“求着”排期。现在能自己先做出来验证，验证完再交给研发做长期建设。</p>
-        <div class="eg">公司内部有个应用，用自然语言一键生成轻量小程序，直接挂到应用端给用户试用；验证通过的需求才进入正式排期。<span class="ts" data-t="1050">17:30</span></div>
+        <div class="eg">公司内部有个应用，用自然语言一键生成轻量小程序，直接挂到应用端给用户试用；验证通过的需求才进入正式排期。<span class="ts" data-raw="1173.0">17:30</span></div>
       </div>
 
       <div class="card point">
-        <h4><span class="ts" data-t="1157">19:17</span> 国内和国际模型，我们实际怎么选 <span class="who">小李 · 小陈</span></h4>
+        <h4><span class="ts" data-raw="1290.3">19:17</span> 国内和国际模型，我们实际怎么选 <span class="who">小李 · 小陈</span></h4>
         <p>小李：公司出于数据安全把默认模型收到国内，用国际模型要走审批；自己的习惯是国内模型先跑一遍，不行再上国际模型，再不行加推理档位。</p>
         <p>小陈：上半年国际模型断崖领先（3D 建模、审美表达差距明显）；到 9–10 月国内模型在写代码上基本追平，价格便宜 10–100 倍，于是日常切到国内；但给老板做关键数据分析时，仍会换回更严谨的国际模型，“更安心”。</p>
       </div>
 
       <div class="card point">
-        <h4><span class="ts" data-t="2077">34:37</span> 提效了，但问题真的解决了吗？ <span class="who">小李 · 小陈</span></h4>
-        <div class="eg">分析全国两年的数据，以前 Excel 要拆开分批跑，现在五分钟出结果。可指标好坏和业务问题之间的因果，还得人来判断。<span class="ts" data-t="2129">35:28</span></div>
-        <div class="eg">一个很宽泛的目标直接丢给 AI 分析，它生成了一大堆离业务很远的报告，筛了两天也摘不出结论。周三干脆拿张纸离开电脑，自己理清逻辑链和关键字段，再让 AI 沿着这条线执行，才收敛下来。<span class="ts" data-t="2441">40:41</span></div>
+        <h4><span class="ts" data-raw="2262.0">34:37</span> 提效了，但问题真的解决了吗？ <span class="who">小李 · 小陈</span></h4>
+        <div class="eg">分析全国两年的数据，以前 Excel 要拆开分批跑，现在五分钟出结果。可指标好坏和业务问题之间的因果，还得人来判断。<span class="ts" data-raw="2372.2">35:28</span></div>
+        <div class="eg">一个很宽泛的目标直接丢给 AI 分析，它生成了一大堆离业务很远的报告，筛了两天也摘不出结论。周三干脆拿张纸离开电脑，自己理清逻辑链和关键字段，再让 AI 沿着这条线执行，才收敛下来。<span class="ts" data-raw="2696.4">40:41</span></div>
         <p>结论：AI 能替你执行，不能替你思考。目标越开放，越要先自己画好解题空间。</p>
       </div>
 
       <div class="card point">
-        <h4><span class="ts" data-t="2623">43:43</span> 这一轮裁员，和 AI 有关系吗？ <span class="who">两人观点不同</span></h4>
-        <p><strong>小陈</strong>：本质上关系不大。互联网行业已经饱和，AI 只是拉高了老板的预期；没有 AI 也该收缩，只是恰好挂到了 AI 头上。<span class="ts" data-t="2720">45:20</span></p>
+        <h4><span class="ts" data-raw="2881.4">43:43</span> 这一轮裁员，和 AI 有关系吗？ <span class="who">两人观点不同</span></h4>
+        <p><strong>小陈</strong>：本质上关系不大。互联网行业已经饱和，AI 只是拉高了老板的预期；没有 AI 也该收缩，只是恰好挂到了 AI 头上。<span class="ts" data-raw="2987.1">45:20</span></p>
         <p><strong>小李</strong>：岗位边界变模糊是原因之一——一个人被期望干几个岗位的活，但提效没到那个程度，人反而更累。</p>
         <p><strong>小陈补充</strong>：AI 能把“做不出来”变成“做出 30 分”，但从 30 分到能上线的 80 分，靠的是人的经验积累，打破岗位边界目前过于理想。</p>
       </div>
 
       <div class="card point">
-        <h4><span class="ts" data-t="3108">51:48</span> 有了 AI，人和人的差距还在吗？ <span class="who">小李 · 小陈</span></h4>
+        <h4><span class="ts" data-raw="3395.9">51:48</span> 有了 AI，人和人的差距还在吗？ <span class="who">小李 · 小陈</span></h4>
         <p>差距本来就在，AI 把它拉开得更快。会拆问题、有多岗位视角的人如虎添翼；只把 AI 当“递话”的人，会慢慢丧失拆解问题的能力。</p>
-        <div class="eg">带的应届生：任务说清楚指标和口径时（比如搭一个数据看板），他和 AI 配合得很好；一旦是“看看这件事的效果”这种开放命题，AI 会替他发散，却替不了他思考背后的业务问题。<span class="ts" data-t="3266">54:25</span></div>
-        <div class="eg">见不到 CEO，可以让模型扮演 CEO 来对话，低成本体验另一种视角；但真实的人和事仍不可替代——有真实机会时再叠加 AI，成长速度才会成倍放大。<span class="ts" data-t="3567">59:26</span></div>
+        <div class="eg">带的应届生：任务说清楚指标和口径时（比如搭一个数据看板），他和 AI 配合得很好；一旦是“看看这件事的效果”这种开放命题，AI 会替他发散，却替不了他思考背后的业务问题。<span class="ts" data-raw="3567.1">54:25</span></div>
+        <div class="eg">见不到 CEO，可以让模型扮演 CEO 来对话，低成本体验另一种视角；但真实的人和事仍不可替代——有真实机会时再叠加 AI，成长速度才会成倍放大。<span class="ts" data-raw="3884.4">59:26</span></div>
       </div>
     </section>
 
@@ -123,12 +128,24 @@
 
     <section>
       <h2>剪辑记录</h2>
-      <p>原始录音 67:47 → 成片 62:04。精确删除 13 处口误和卡壳（共 166 秒），把超过 0.6 秒的停顿压到 0.4 秒（共 177 秒），统一单声道、降低底噪、压缩动态，响度标准化到 −16 LUFS。</p>
+      <p>同一份录音剪了两个版本，都统一单声道、降低底噪、压缩动态，响度标准化到 −16 LUFS。</p>
+
+      <h3>原版 · 65:47：尽量保持原样</h3>
+      <p>原始录音 67:47。只删 11 处明显的口误、卡壳、抢话（共 98 秒）；停顿只把超过 1.5 秒的空白压到 1 秒（共 23 秒），正常的说话节奏都保留。观点、旁白、绕远的部分一概不动。</p>
       <table>
         <thead><tr><th>原始时间</th><th>删掉了什么</th></tr></thead>
         <tbody id="cuts"></tbody>
       </table>
-      <p class="note">剪辑决策表：<code>edits/bian-ep01-ai.json</code>，可调整后用 <code>scripts/edit_episode.py</code> 重新渲染。</p>
+
+      <h3>精华版 · 28:03：逻辑优先，时间线让步</h3>
+      <p>从 67 分钟里挑出 185 个片段重新拼接，按「片头金句 → 开场 → 工作流 → 模型怎么选 → 提效与解决问题 → 裁员 → 人与人的差距 → 结尾」组织，每个大章节之前加一声提示音。</p>
+      <ul>
+        <li><strong>调整顺序：</strong>把「两天白干，是一个血的教训」（原始 47:31）提到最前面做片头。</li>
+        <li><strong>去掉事实铺陈：</strong>开场的新闻背景（原始 02:13–03:40）、裁员段的海外公司举例只留结论。</li>
+        <li><strong>压缩长段：</strong>模型选择段从 16 分钟压到约 4 分半，保留选型习惯、三维建模对比、国内追平和“关键分析仍用国际模型”；去掉逐个版本的迭代细节、审美对比和豆包的情感话题。</li>
+        <li><strong>保留所有例子：</strong>一个 AI IDE 包办九成工作、产品一键生成小程序、五分钟跑完两年数据、两天白干、带应届生搭看板、让模型扮演 CEO。</li>
+      </ul>
+      <p class="note">剪辑决策表：原版 <code>edits/bian-ep01-ai.json</code>，精华版 <code>edits/bian-ep01-ai-highlight.json</code>（按文字定位片段，可改顺序）。调整后用 <code>scripts/edit_episode.py</code> 重新渲染。</p>
     </section>
 
     <section>
@@ -138,16 +155,16 @@
           <h4>① 回答没有提前想透，逻辑链条不清楚</h4>
           <ul>
             <li>一次抛出两个问题，第二个最后没问出来，靠剪辑删掉（原始 17:17、21:24）。</li>
-            <li>“解决问题的速率也是问题本身”绕了将近一分钟，后半段又重复了同一观点，已整段删除（原始 38:39）。</li>
-            <li>模型选择段一人连续讲了约 10 分钟 <span class="ts" data-t="1354">22:33</span>，中间没有小结，听众很难记住结论。</li>
+            <li>“解决问题的速率也是问题本身”绕了将近一分钟，后半段又重复了同一观点（原始 38:39；原版保留，精华版已去掉）。</li>
+            <li>模型选择段一人连续讲了约 10 分钟 <span class="ts" data-raw="1495.7">22:33</span>，中间没有小结，听众很难记住结论。</li>
           </ul>
           <div class="fix"><strong>改法：</strong>每道题录前写答题卡——一句话结论 + 现象→原因→所以呢三步链条；开口先说结论；单次发言不超过 90 秒。</div>
         </div>
         <div class="card">
           <h4>② 只讲事实，缺少真实例子，容易像说教</h4>
           <ul>
-            <li>开场背景和裁员段几乎都是新闻和判断，没有“我身边的一件事”<span class="ts" data-t="2720">45:20</span>。</li>
-            <li>反过来，最打动人的是“两天白干、周三拿纸重来”<span class="ts" data-t="2441">40:41</span>和“带应届生搭看板”<span class="ts" data-t="3266">54:25</span>——它们都在后半程才出现。</li>
+            <li>开场背景和裁员段几乎都是新闻和判断，没有“我身边的一件事”<span class="ts" data-raw="2987.1">45:20</span>。</li>
+            <li>反过来，最打动人的是“两天白干、周三拿纸重来”<span class="ts" data-raw="2696.4">40:41</span>和“带应届生搭看板”<span class="ts" data-raw="3567.1">54:25</span>——它们都在后半程才出现。</li>
           </ul>
           <div class="fix"><strong>改法：</strong>每个主问至少准备一个五要素例子（时间、地点、人物、冲突、结果）；事实只由主持一句带过，紧接着落到亲身经历。</div>
         </div>
@@ -176,7 +193,6 @@
   <script>
     const CUTS = [
       ['04:26', '想不起 IDE 名字的卡壳'],
-      ['07:35', '与主线无关的旁白'],
       ['08:08', '重复起头“没有被替代的”+ 8 秒空白'],
       ['17:15', '提问被打断：“那我接着想问… 等一下”'],
       ['17:58', '提了第二个问题又放弃'],
@@ -184,7 +200,6 @@
       ['28:00', '口误：“更加更加明显的一些 一些”'],
       ['34:06', '卡壳：“因为 因为 对 甚至 对”'],
       ['38:06', '重复：“工作上当然是”'],
-      ['38:39', '绕圈论述“解决问题的速率也是问题本身”（53 秒）'],
       ['41:49', '同时开口：“对 我说 / 你说完了吗”'],
       ['52:29', '重复：“瓶颈 / 人员数量的瓶颈”'],
       ['65:52', '两次起头没说完'],
@@ -192,10 +207,15 @@
     document.getElementById('cuts').innerHTML =
       CUTS.map(([t, w]) => `<tr><td>${t}</td><td>${w}</td></tr>`).join('');
 
+    const VERSIONS = {
+      highlight: { audio: '../audio/bian-ep01-ai-highlight.mp3', data: 'data/bian-ep01-ai-highlight.json' },
+      full: { audio: '../audio/bian-ep01-ai.mp3', data: 'data/bian-ep01-ai.json' },
+    };
     const audio = document.getElementById('audio');
     const now = document.getElementById('now');
     let chapters = [];
     let paraEls = [];
+    let pieces = [];
 
     const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
     function seek(t) {
@@ -207,6 +227,35 @@
       if (el) seek(parseFloat(el.dataset.t));
     });
 
+    // raw recording time -> time in the current version; null if this version dropped it
+    function fromRaw(t) {
+      const SNAP = 60;
+      for (const [a, b, o] of pieces) {
+        if (t >= a && t < b) return o + (t - a);
+      }
+      let best = null;
+      for (const [a, , o] of pieces) {
+        if (a >= t && a - t <= SNAP && (best === null || o < best)) best = o;
+      }
+      return best;
+    }
+
+    function placeRawStamps(version) {
+      document.querySelectorAll('[data-raw]').forEach(el => {
+        const t = fromRaw(parseFloat(el.dataset.raw));
+        if (t === null) {
+          el.removeAttribute('data-t');
+          el.classList.add('off');
+          el.title = '精华版没有收录这一段，切到原版收听';
+        } else {
+          el.dataset.t = t.toFixed(1);
+          el.textContent = fmt(t);
+          el.classList.remove('off');
+          el.title = '';
+        }
+      });
+    }
+
     audio.addEventListener('timeupdate', () => {
       const t = audio.currentTime;
       let idx = -1;
@@ -216,27 +265,42 @@
       paraEls.forEach(p => p.classList.toggle('on', t >= p._t && t < p._end));
     });
 
-    fetch('data/bian-ep01-ai.json')
-      .then(r => r.json())
-      .then(data => {
-        chapters = data.chapters;
-        document.getElementById('chapters').innerHTML = chapters.map(c =>
-          `<li data-t="${c.at}"><span class="t">${fmt(c.at)}</span><span>${c.title}</span></li>`
-        ).join('');
-        const tx = document.getElementById('tx');
-        tx.innerHTML = data.paragraphs.map(p =>
-          `<p><span><span class="ts" data-t="${p.t}">${fmt(p.t)}</span></span><span>${p.text}</span></p>`
-        ).join('');
-        paraEls = [...tx.querySelectorAll('p')];
-        paraEls.forEach((el, i) => {
-          el._t = data.paragraphs[i].t;
-          el._end = i + 1 < data.paragraphs.length ? data.paragraphs[i + 1].t : Infinity;
+    function loadVersion(v) {
+      const cfg = VERSIONS[v] || VERSIONS.highlight;
+      document.querySelectorAll('#versions button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+      const url = new URL(location.href);
+      if (v === 'highlight') url.searchParams.delete('v'); else url.searchParams.set('v', v);
+      history.replaceState(null, '', url);
+      audio.src = cfg.audio;
+      now.textContent = '点击下方任意时间戳跳转';
+      return fetch(cfg.data)
+        .then(r => r.json())
+        .then(data => {
+          chapters = data.chapters;
+          pieces = data.map || [];
+          document.getElementById('chapters').innerHTML = chapters.map(c =>
+            `<li data-t="${c.at}"><span class="t">${fmt(c.at)}</span><span>${c.title}</span></li>`
+          ).join('');
+          const tx = document.getElementById('tx');
+          tx.innerHTML = data.paragraphs.map(p =>
+            `<p><span><span class="ts" data-t="${p.t}">${fmt(p.t)}</span></span><span>${p.text}</span></p>`
+          ).join('');
+          paraEls = [...tx.querySelectorAll('p')];
+          paraEls.forEach((el, i) => {
+            el._t = data.paragraphs[i].t;
+            el._end = i + 1 < data.paragraphs.length ? data.paragraphs[i + 1].t : Infinity;
+          });
+          placeRawStamps(v);
+        })
+        .catch(() => {
+          document.getElementById('chapters-note').textContent =
+            '章节与转写需要通过本地服务器或 GitHub Pages 打开（python3 scripts/serve.py 8765）。';
         });
-      })
-      .catch(() => {
-        document.getElementById('chapters-note').textContent =
-          '章节与转写需要通过本地服务器或 GitHub Pages 打开（python3 scripts/serve.py 8765）。';
-      });
+    }
+
+    document.querySelectorAll('#versions button').forEach(b =>
+      b.addEventListener('click', () => loadVersion(b.dataset.v)));
+    loadVersion(new URLSearchParams(location.search).get('v') === 'full' ? 'full' : 'highlight');
   </script>
 </body>
 </html>

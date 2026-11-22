@@ -20,7 +20,7 @@ Task Progress:
 - [ ] 4. AI 总结：转写 → 按「预录诊断」模板生成每个主问的诊断 + 答题卡草稿
 - [ ] 5. 决策：每个主问标「保留 / 重录 / 删除」（见判断标准）
 - [ ] 6. 重录：只录标了「重录」的主问，按答题卡和录制规则；全部保留则跳过
-- [ ] 7. 剪辑：预录保留段 + 重录段拼接 → 渲染（见「剪辑流水线」）
+- [ ] 7. 剪辑两个版本：原版（只修口误）+ 精华版（≤30 分钟，逻辑重组 + 提示音），见「剪辑流水线」
 - [ ] 8. 生成成片页、更新 episodes.json
 - [ ] 9. 复盘：按三个问题打分，写进成片页
 - [ ] 10. 提交并推送 main（Pages 才更新）
@@ -103,28 +103,45 @@ Task Progress:
 - 一个主问 8–12 分钟。超过 12 分钟，主持喊小结：「用一句话总结一下？」
 - 一人连续讲超过 3 分钟（第一期模型段约 10 分钟），主持插一句复述或要例子，把话递给另一位。
 
-## 三、录后：剪辑流水线
+## 三、录后：剪辑流水线（每期两个版本）
+
+| 版本 | 目标 | 怎么剪 |
+|------|------|--------|
+| **原版** | 尽量保持原样 | 只删明显的口误、卡壳、抢话；停顿只压超过 1.5 秒的空白（压到 1 秒）；观点、旁白、绕远的部分都不动 |
+| **精华版** | 30 分钟以内 | 按逻辑重组：片头金句 → 开场 → 各主问 → 结尾；可以打乱原始时间线；大章节前加提示音；停顿压到 0.4 秒 |
 
 ```bash
 # 1. 转写（faster-whisper，带词级时间戳，68 分钟约 10 分钟）
 python3 scripts/transcribe.py _work/<slug>/raw.m4a _work/<slug> small
 
-# 2. 写剪辑决策表 edits/<slug>.json
-#    cuts: 口误、重复起头、抢话、绕圈论述；每条写明 why
+# 2a. 原版决策表 edits/<slug>.json
+#    cuts: 只放口误、重复起头、抢话；每条写明 why
 #    chapters: 用原始时间或 find 文本定位
 #    glossary: 转写同音错字校正（Cloud→Claude 等）
+# 2b. 精华版决策表 edits/<slug>-highlight.json
+#    base: 指向原版决策表，继承音源、转写、词表、口误剪辑
+#    sections: 按播出顺序排列的章节，每章若干 clips，用原始转写里的 from / to 文字定位
+#    chime: true 的章节前插入提示音；片头一般放全期最有冲突的一句
+#    先 --dry-run 看总时长和每段首尾文字，超过 30 分钟就删次要片段
 
-# 3. 渲染（静音压缩 + 单声道 + 降噪 + 压缩 + −16 LUFS，约 3 分钟）
-python3 scripts/edit_episode.py edits/<slug>.json _work/<slug>/out
+# 3. 渲染（单声道 + 降噪 + 压缩 + −16 LUFS，每个版本约 3 分钟）
+python3 scripts/edit_episode.py edits/<slug>-highlight.json _work/<slug>/highlight --dry-run
+python3 scripts/edit_episode.py edits/<slug>.json _work/<slug>/original
+python3 scripts/edit_episode.py edits/<slug>-highlight.json _work/<slug>/highlight
 
-# 4. 生成网页数据（章节 + 校正后的转写稿）
-python3 scripts/build_episode_data.py edits/<slug>.json _work/<slug>/out
-cp _work/<slug>/out/<slug>.mp3 docs/audio/
+# 4. 生成网页数据（章节 + 校正后的转写稿 + 原始时间映射）
+python3 scripts/build_episode_data.py edits/<slug>.json _work/<slug>/original
+python3 scripts/build_episode_data.py edits/<slug>-highlight.json _work/<slug>/highlight
+cp _work/<slug>/original/<slug>.mp3 _work/<slug>/highlight/<slug>-highlight.mp3 docs/audio/
+
+# 5. 验证精华版拼接点：重新转写成片，检查每个跳接处前后文字是否完整
+python3 scripts/transcribe.py _work/<slug>/highlight/<slug>-highlight.mp3 _work/<slug>/hl-check small
 ```
 
 剪辑原则：
-- 只删口误、卡壳、重复和明显绕圈，不改变观点；两人观点不同的地方保留。
-- 每处剪辑点用转写回听验证，确认没切掉半个字。
+- 原版只删口误，不改变观点；两人观点不同的地方保留。
+- 精华版可以删整段、调顺序，但每个保留的观点都要带上它的例子；事实铺陈优先删。
+- 成片页的要点时间戳写原始录音时间（`data-raw`），网页按当前版本自动换算；精华版没收录的会划掉。
 - `_work/` 与原始录音不入库；成片 mp3（64 kbps 单声道）放 `docs/audio/` 供网页播放。
 
 ## 四、复盘：每期三问

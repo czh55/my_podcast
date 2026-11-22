@@ -134,7 +134,9 @@
       }
       const ep = recorded[recorded.length - 1];
       const o = ep.outputs || {};
-      document.getElementById('latest-sub').textContent = `${ep.date} · ${ep.duration}`;
+      document.getElementById('latest-sub').textContent = ep.duration_highlight
+        ? `${ep.date} · 精华版 ${ep.duration_highlight} · 原版 ${ep.duration}`
+        : `${ep.date} · ${ep.duration}`;
       el.innerHTML = `
         <article class="card latest">
           <div class="cover"><img src="assets/logo.jpg" alt=""></div>
@@ -142,9 +144,11 @@
             <div class="kicker">EP${String(ep.episode).padStart(2, '0')} · ${escapeHtml(ep.series_title || '')}</div>
             <h3>${escapeHtml(ep.title)}</h3>
             <p>${escapeHtml(ep.summary || '')}</p>
-            ${o.audio ? `<audio class="plain" controls preload="none" src="${o.audio}"></audio>` : ''}
+            ${o.audio_highlight ? '<div class="note">精华版 · 逻辑重排 + 章节提示音</div>' : ''}
+            ${o.audio ? `<audio class="plain" controls preload="none" src="${o.audio_highlight || o.audio}"></audio>` : ''}
             <div class="row">
               ${o.outline ? `<a class="btn" href="${o.outline}">章节 · 要点 · 文字稿</a>` : ''}
+              ${o.audio_highlight && o.outline ? `<a class="btn ghost" href="${o.outline}?v=full">听原版 ${ep.duration}</a>` : ''}
               <div class="tags">${(ep.tags || []).slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
             </div>
           </div>
@@ -253,7 +257,7 @@
         const tagHtml = (ep.tags || []).slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
         const recorded = RECORDED.has(ep.status);
         const foot = recorded && ep.duration
-          ? `<span class="note">时长 ${ep.duration} · ${ep.date}</span>`
+          ? `<span class="note">${ep.duration_highlight ? `精华版 ${ep.duration_highlight} · 原版 ${ep.duration}` : `时长 ${ep.duration}`} · ${ep.date}</span>`
           : ep.planned_month ? `<span class="note">计划 ${ep.planned_month}</span>` : '';
         const inner = `
           <div class="ep-top">
