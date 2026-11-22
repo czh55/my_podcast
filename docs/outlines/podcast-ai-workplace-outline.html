@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>播客大纲 · AI 对互联网职场人的影响</title>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --paper: #fffdf9;
+      --ink: #1c1917;
+      --muted: #78716c;
+      --line: #e7e0d6;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --warn: #9a3412;
+      --warn-soft: #ffedd5;
+      --insert: #1d4ed8;
+      --insert-soft: #dbeafe;
+      --shadow: 0 12px 40px rgba(28, 25, 23, 0.08);
+      --radius: 14px;
+      --font: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --mono: "SF Mono", "Menlo", "Consolas", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #d1fae5 0%, transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, #ffedd5 0%, transparent 50%),
+        var(--bg);
+      line-height: 1.65;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 12px 20px;
+      background: rgba(255, 253, 249, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .toolbar .brand {
+      font-weight: 700;
+      margin-right: auto;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+    }
+    .toolbar .hint {
+      width: 100%;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+    }
+    button, .file-btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+    button:hover, .file-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    button.primary:hover { filter: brightness(1.05); color: #fff; }
+    button.ghost { background: transparent; }
+    .file-btn { display: inline-flex; align-items: center; }
+    .file-btn input { display: none; }
+    .status {
+      font-size: 12px;
+      color: var(--muted);
+      min-height: 1.2em;
+    }
+    .status.ok { color: var(--accent); }
+    .status.err { color: var(--warn); }
+
+    .wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
+
+    .doc {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 40px 48px;
+    }
+
+    [contenteditable="true"] {
+      outline: none;
+    }
+    [contenteditable="true"]:focus {
+      box-shadow: inset 0 0 0 2px var(--accent-soft);
+      border-radius: 6px;
+    }
+    .editable-block:hover {
+      outline: 1px dashed transparent;
+    }
+    body.edit-mode .editable-block:hover {
+      outline: 1px dashed #99f6e4;
+      outline-offset: 4px;
+    }
+
+    h1 {
+      font-size: 28px;
+      line-height: 1.25;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+    .meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 12px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 32px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--ink);
+      page-break-after: avoid;
+    }
+    h3 {
+      font-size: 15px;
+      margin: 20px 0 8px;
+      color: var(--accent);
+      page-break-after: avoid;
+    }
+    p { margin: 0 0 12px; }
+    ul, ol { margin: 0 0 14px; padding-left: 1.35em; }
+    li { margin: 4px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin: 12px 0 18px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #faf7f2; font-weight: 600; }
+
+    .role {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 10px 14px;
+      margin: 14px 0;
+      padding: 14px 16px;
+      background: #faf7f2;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+    .role .tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--ink);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+    }
+    .role.rd .tag { background: var(--accent); }
+
+    .script {
+      margin: 12px 0;
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      background: #f0fdfa;
+      border-radius: 0 10px 10px 0;
+      page-break-inside: avoid;
+    }
+    .script .who {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .insert {
+      margin: 16px 0;
+      padding: 14px 16px;
+      border: 1px solid #bfdbfe;
+      background: var(--insert-soft);
+      border-radius: 12px;
+      page-break-inside: avoid;
+    }
+    .insert .label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--insert);
+      margin-bottom: 6px;
+    }
+
+    .fact {
+      margin: 12px 0;
+      padding: 14px 16px;
+      background: var(--warn-soft);
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      font-size: 13.5px;
+      page-break-inside: avoid;
+    }
+    .fact .label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--warn);
+      margin-bottom: 6px;
+    }
+
+    .guide {
+      font-size: 13px;
+      color: var(--muted);
+      background: #faf7f2;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 8px 0 14px;
+    }
+    .guide strong { color: var(--ink); }
+
+    .q-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 14px 0;
+      page-break-inside: avoid;
+    }
+    .q-box .q {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .tips {
+      margin-top: 28px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 24px;
+    }
+    .toc a {
+      font-size: 12px;
+      text-decoration: none;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 640px) {
+      .doc { padding: 24px 18px 36px; }
+      h1 { font-size: 22px; }
+      .role { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+      .toolbar { display: none !important; }
+      .wrap { max-width: none; padding: 0; }
+      .doc {
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+      }
+      a { color: inherit; text-decoration: none; }
+      .toc { display: none; }
+      h2, h3, .script, .insert, .fact, .q-box, .role {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      @page {
+        margin: 16mm 14mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <div class="brand">播客大纲编辑器</div>
+    <button type="button" class="ghost" id="btnEdit" title="切换编辑模式">编辑模式：开</button>
+    <button type="button" class="ghost" id="btnSave">保存到浏览器</button>
+    <button type="button" class="ghost" id="btnLoad">恢复本地稿</button>
+    <label class="file-btn">导入 JSON<input type="file" id="importJson" accept="application/json,.json" /></label>
+    <button type="button" class="ghost" id="btnExportJson">导出 JSON</button>
+    <button type="button" class="primary" id="btnPdf">导出 PDF</button>
+    <p class="hint">正文可直接点击修改。导出 PDF 将打开系统打印对话框，请选择「存储为 PDF / Save as PDF」。</p>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="wrap">
+    <article class="doc" id="doc" contenteditable="true" spellcheck="true">
+      <header>
+        <p><span class="pill">播客节目录制大纲</span></p>
+        <h1>AI 对互联网职场人的影响<br />产品 × 研发对谈</h1>
+        <div class="meta">
+          <span>时长建议：25–35 分钟</span>
+          <span>形式：双人对话 + 轻主持串场</span>
+          <span>主线：工作流 / 提效真相 / 新问题 / 职业下一站</span>
+        </div>
+      </header>
+
+      <nav class="toc">
+        <a href="#s1">一、人物介绍</a>
+        <a href="#s2">二、引子</a>
+        <a href="#s3">三、工作流</a>
+        <a href="#s4">四、提效与裁员</a>
+        <a href="#s5">五、问题·差距·下一站</a>
+        <a href="#s6">结尾与录制提示</a>
+      </nav>
+
+      <h2>节目结构总览</h2>
+      <table>
+        <thead>
+          <tr><th>段落</th><th>内容</th><th>时长建议</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>一</td><td>冷开场 + 人物介绍</td><td>2–3 min</td></tr>
+          <tr><td>二</td><td>引子：本周 AI 浪潮接到工位</td><td>2–3 min</td></tr>
+          <tr><td>三</td><td>主问1：工作流变了什么 + 穿插「国内外模型选型」</td><td>6–8 min</td></tr>
+          <tr><td>四</td><td>主问2：提效了吗？真解决问题了吗？+ 穿插「裁员与 AI」</td><td>6–8 min</td></tr>
+          <tr><td>五</td><td>主问3：带来了什么问题 + 穿插「人与人差距」→ 主问4：职业下一站</td><td>8–10 min</td></tr>
+          <tr><td>尾</td><td>各一句收束</td><td>1 min</td></tr>
+        </tbody>
+      </table>
+
+      <h2>嘉宾设定</h2>
+      <div class="role">
+        <div class="tag">A 产品</div>
+        <div>
+          国内大厂 → 中厂 → 小厂都待过；偏需求、场景、商业闭环。
+        </div>
+      </div>
+      <div class="role rd">
+        <div class="tag">B 研发</div>
+        <div>
+          同样跨过大中小厂；偏工程、Agent、交付与质量门禁。
+        </div>
+      </div>
+      <p><strong>共同身份：</strong>没赶上 Web、也没赶上移动红利入场那拨人，但正好卡在 AI 变革一线——是执行者，不是演讲者。</p>
+
+      <!-- PART 1 -->
+      <h2 id="s1">第一部分｜冷开场 + 人物介绍（脚本）</h2>
+
+      <div class="script">
+        <div class="who">【主持 / 旁白】</div>
+        <p>如果把日历翻到这一周，AI 不太像「又发了个模型」，更像三家同时把牌拍在桌上：Gemini 3、Claude Opus 4.5、GPT-5.1，前后脚到齐。同一时间，深圳刚开完 2026 APEC，官方把数字经济和人工智能说成「创新增长的引擎」，工商界在谈治理、谈「人工智能+」、谈中小微能不能用得起。</p>
+        <p>但今天这期，我们想把镜头从峰会和榜单，拉回互联网公司的工位。</p>
+      </div>
+
+      <div class="script">
+        <div class="who">【A｜产品】</div>
+        <p>我是 A，做产品的。这几年辗转过大厂、中厂、小厂——大厂见过完整的产运研流水线，中厂见过「一个人当三个人用」，小厂见过从 0 到 1 没有资源还得上线。</p>
+        <p>有个挺真实的事：我们这拨人，基本没赶上 Web 门户那一波，也没赶上移动互联网爆发时「随便做一个 App 就能吃红利」的窗口。入行的时候，增长已经变难、组织已经变重。</p>
+        <p>结果没想到，真正把我们按在变革一线的，是 AI——不是听报告的那种，是每天写需求、改原型、跟研发扯皮、被老板问「能不能再快一点」的那种一线执行者。</p>
+      </div>
+
+      <div class="script">
+        <div class="who">【B｜研发】</div>
+        <p>我是 B，做研发的。路径差不多，大中小厂都待过：大厂有平台和规范，中厂要自己扛稳定性，小厂恨不得一个人从接口写到上线。</p>
+        <p>同样没吃到前两轮浪潮的「入场红利」，但正好撞上 AI 改写编码、测试、甚至协作方式。我现在的日常不是讨论 AGI，是：这段代码能不能交给模型、Review 怎么守、出事谁背锅。</p>
+        <p>所以今天我们俩对话的立场很明确——不是站在台上讲趋势，是站在工位上讲变化。</p>
+      </div>
+
+      <div class="script">
+        <div class="who">【主持】</div>
+        <p>好。产品和研发各占一边，聊聊 AI 对互联网职场人的真实影响。先快速把背景接到你们桌上。</p>
+      </div>
+
+      <!-- PART 2 -->
+      <h2 id="s2">第二部分｜引子：从浪潮接到工位（脚本）</h2>
+
+      <div class="script">
+        <div class="who">【主持】</div>
+        <p>两层背景，三十秒对齐。</p>
+        <p>第一层，<strong>工具侧</strong>：模型在周更，能力从「会聊天」变成「能写代码、能调工具、能跑 Agent」。对职场人来说，上周好用的工作流，下周可能就被新默认模型改写。</p>
+        <p>第二层，<strong>组织侧</strong>：公司在 All in AI，培训、Token、使用量开始变成隐形考核；与此同时，外面是裁员传闻、去中层、资源往 AI 挪。APEC 在谈引擎和普惠，工位上感受到的往往是：更快、更少人、更说不清责任边界。</p>
+        <p>今天不按「新闻播报」聊，按四道题聊透：</p>
+        <ol>
+          <li>工作流到底变了什么？</li>
+          <li>提效了吗？真解决问题了吗？</li>
+          <li>带来了什么新问题？</li>
+          <li>你觉得自己职业的下一站是什么？</li>
+        </ol>
+        <p>中间会穿插三个大家最近都在搜的点：国内外模型怎么选、裁员和 AI 到底有没有关系、有了 AI 人和人的差距还在不在。</p>
+      </div>
+
+      <div class="script">
+        <div class="who">【A】</div>
+        <p>我先说一句热身：我现在打开需求之前，会先问——这件事还值不值得「堆人」，还是该先让 AI 出一版。</p>
+      </div>
+      <div class="script">
+        <div class="who">【B】</div>
+        <p>我这边更直接：需求进来，第一反应不是估点，是「哪一段可以交给模型，哪一段绝对不能」。</p>
+      </div>
+      <div class="script">
+        <div class="who">【主持】</div>
+        <p>那从工作流开始。</p>
+      </div>
+
+      <!-- PART 3 -->
+      <h2 id="s3">第三部分｜主问1：工作流有什么变化</h2>
+      <p>（穿插：国内外模型选型）</p>
+
+      <div class="q-box">
+        <div class="q">主问 1：工作流有什么变化？</div>
+        <p>产品先说一天，研发再说一天；再对比「协作界面」变没变。</p>
+        <div class="guide">
+          <strong>引导提纲</strong>
+          <ul>
+            <li>产品：PRD / 原型 / 竞品 / 评审 / 验收，哪一步被压缩了？哪一步反而变长了？</li>
+            <li>研发：编码 / CR / 测试 / 排障 / 文档，哪里快了？哪里更不敢快？</li>
+            <li>共同：会不会变成「一个人 + 几个对话框」？岗位边界糊了吗？</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="insert">
+        <div class="label">穿插问题 1 · 工作流聊到「用什么工具」时插入</div>
+        <div class="q">对模型的选择：国内和国际怎么对比？你们真实怎么用？</div>
+        <div class="guide">
+          <strong>引导</strong>
+          <ul>
+            <li>国际：GPT-5.1 / Gemini 3 / Opus 4.5——编程、长上下文、Agent、多模态各自强在哪</li>
+            <li>国内：通义/千问、豆包、文心、混元、DeepSeek 等——延迟、合规、价格、内网可用性</li>
+            <li>决策现实：公司有没有统一网关？能不能出海模型？敏感数据红线？</li>
+            <li>产品更在意「文案/原型/理解业务」；研发更在意「改代码靠不靠谱」——选型会不会打架？</li>
+          </ul>
+          <p><strong>可抛冲突：</strong>A「哪个像人我用哪个」vs B「哪个少引入坑我才敢默认」。</p>
+        </div>
+      </div>
+
+      <!-- PART 4 -->
+      <h2 id="s4">第四部分｜主问2：提效了没？真正解决问题了没？</h2>
+      <p>（穿插：裁员与 AI）</p>
+
+      <div class="q-box">
+        <div class="q">主问 2：你觉得提效了吗？真正解决问题了吗？</div>
+        <div class="guide">
+          <strong>引导拆两层</strong>
+          <ol>
+            <li><strong>提效</strong>：省了谁的时间？会议、写文档、写样板代码、查日志……</li>
+            <li><strong>解决问题</strong>：用户问题、业务指标、线上故障、组织协同——有没有因此真的变好？还是只是「产出变多、决策没变」？</li>
+          </ol>
+          <p><strong>可追问：</strong>有没有「看起来快了一倍，上线后返工更狠」的例子？AI 解决的是执行层，还是也碰到了判断层？</p>
+        </div>
+      </div>
+
+      <div class="insert">
+        <div class="label">穿插问题 2 · 提到「人少了 / 要求更快」时插入</div>
+        <div class="q">你觉得这一轮互联网裁员 / 组织调整，和 AI 发展是什么关系？</div>
+      </div>
+
+      <div class="fact">
+        <div class="label">主持事实锚点（约 20 秒，嘉宾用体感接）</div>
+        <p>近半年外面的信号大概是这样——</p>
+        <p><strong>海外：</strong>2026 上半年全球科技裁员规模已接近 2025 全年；不少公司财报仍好，却明确把 AI 写成减员/重组原因，例如甲骨文年报提到 AI 部署导致并可能继续导致人数下降；Meta、亚马逊、Salesforce、Atlassian 等也出现「砍传统岗、加码 AI」的换血叙事。</p>
+        <p><strong>国内：</strong>少有官方「大裁员」通告，更多是滚动优化 + 结构重组。公开讨论里常见：美团回应「产品岗裁 50%」不实，又称近两月离职不到 2000、占比不高；字节侧有「收缩业务宽度、聚焦 AI」与高薪招 AI 并行的说法；阿里 2025 年报口径人数大幅下降，但很大一块与业务剥离相关，不完全等于「被 AI 替代」；腾讯 11 月「裁员 50%」系误读，管理层原意更像资源重配——一半守住核心业务提效，一半探索 AI Native；同时腾讯 / 京东 / 字节等被报道试点去职级、砍层级、要求管理者有实质产出。</p>
+        <p><strong>一句话：</strong>上一轮更像过冬砍成本，这一轮叙事更像为 AI 腾笼换鸟——但「AI 替人」和「经济/业务收缩」常常缠在一起，需要拆开看。</p>
+      </div>
+
+      <div class="guide">
+        <strong>对谈引导</strong>
+        <ul>
+          <li>产品岗、研发岗，谁更像被「效率叙事」盯上？</li>
+          <li>裁的是人，还是裁的是「不会用 AI 的工作方式」？</li>
+          <li>中层变少，和 AI 扩大管理半径，有没有体感？</li>
+        </ul>
+      </div>
+
+      <!-- PART 5 -->
+      <h2 id="s5">第五部分｜主问3 → 差距 → 主问4</h2>
+
+      <div class="q-box">
+        <div class="q">主问 3：AI 带来了什么问题？</div>
+        <p>各举 2 个真实痛点。</p>
+        <div class="guide">
+          <p><strong>产品侧可挖：</strong>垃圾产出变多；预期被抬高「AI 都能写你怎么还要两周」；需求所有权变模糊——谁拍板、谁背锅。</p>
+          <p><strong>研发侧可挖：</strong>幻觉代码与安全合规；Review 变累；初级培养断层；Token/工具账单成新成本中心。</p>
+        </div>
+      </div>
+
+      <div class="insert">
+        <div class="label">穿插问题 3 · 聊到「有人更强、有人更慌」时插入</div>
+        <div class="q">有了 AI，人与人之间的差距是否还存在？是在缩小还是在拉大？</div>
+        <div class="guide">
+          <ul>
+            <li>会不会变成：会提问、会验收、会设计系统的人，把不会的人甩得更远？</li>
+            <li>大厂 / 中厂 / 小厂体感差在哪？（工具准入、数据、规范）</li>
+            <li>「人人都能出活」之后，稀缺的是品味、判断、责任感，还是整合资源的能力？</li>
+            <li>对初级同学：门槛降低是机会还是更卷？</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="q-box">
+        <div class="q">主问 4：你觉得你这个职业的下一站是什么？</div>
+        <div class="guide">
+          <p><strong>产品可对标：</strong>AI 产品 / Agent 编排与评估；更懂工程约束的落地产品；从写 PRD → 定义评测与业务闭环。</p>
+          <p><strong>研发可对标：</strong>AI 工程化（评测、观测、成本、安全）；人机协作 Tech Lead；平台化让全公司用得起、用得对。</p>
+          <p><strong>强制互评一句：</strong>A 评 B 的下一站靠不靠谱；B 评 A 是不是自我安慰。</p>
+        </div>
+      </div>
+
+      <!-- ENDING -->
+      <h2 id="s6">结尾｜各一句（脚本）</h2>
+
+      <div class="script">
+        <div class="who">【主持】</div>
+        <p>最后，不总结行业，只留一句给同岗位的人。</p>
+      </div>
+      <div class="script">
+        <div class="who">【A｜产品｜底稿参考】</div>
+        <p>AI 不会替我做取舍，但它会曝光我有没有取舍能力。下一站不是写更长的 PRD，是对结果负责。</p>
+      </div>
+      <div class="script">
+        <div class="who">【B｜研发｜底稿参考】</div>
+        <p>模型可以写 80% 的代码，但 100% 的责任还在人身上。下一站是让 AI 成为可被工程约束的同事，而不是不可追责的幽灵作者。</p>
+      </div>
+      <div class="script">
+        <div class="who">【主持】</div>
+        <p>今天两位，没赶上前两轮浪潮的入场席，但站在了 AI 变革的执行席。工作流在变、人效叙事在变、人和人的差距也可能被重新拉开。</p>
+        <p>如果你也是互联网一线的产品或研发，欢迎把你的「工作流截图」或「打脸瞬间」丢到评论区。我们下期见。</p>
+      </div>
+
+      <div class="tips">
+        <h3>录制提示</h3>
+        <ol>
+          <li>事实锚点只由主持念，嘉宾用体感接，避免变成新闻联播。</li>
+          <li>每个主问控制一个分歧点即可，例如：A 觉得提效明显 / B 觉得问题没解决。</li>
+          <li>裁员段务必把传闻与官方回应分开，节目更经得起推敲。</li>
+          <li>切片优先：「提效了吗」「裁员和 AI」「差距拉大了吗」「职业下一站」。</li>
+        </ol>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "podcast-ai-workplace-outline-v1";
+      const doc = document.getElementById("doc");
+      const statusEl = document.getElementById("status");
+      const btnEdit = document.getElementById("btnEdit");
+      let editOn = true;
+
+      function setStatus(msg, type) {
+        statusEl.textContent = msg || "";
+        statusEl.className = "status" + (type ? " " + type : "");
+        if (msg) {
+          clearTimeout(setStatus._t);
+          setStatus._t = setTimeout(() => {
+            statusEl.textContent = "";
+            statusEl.className = "status";
+          }, 3200);
+        }
+      }
+
+      function syncEditMode() {
+        doc.contentEditable = editOn ? "true" : "false";
+        document.body.classList.toggle("edit-mode", editOn);
+        btnEdit.textContent = "编辑模式：" + (editOn ? "开" : "关");
+      }
+
+      btnEdit.addEventListener("click", () => {
+        editOn = !editOn;
+        syncEditMode();
+        setStatus(editOn ? "已开启编辑，点击正文即可修改" : "已锁定，防止误改", "ok");
+      });
+
+      document.getElementById("btnSave").addEventListener("click", () => {
+        try {
+          localStorage.setItem(STORAGE_KEY, doc.innerHTML);
+          setStatus("已保存到本机浏览器", "ok");
+        } catch (e) {
+          setStatus("保存失败：" + e.message, "err");
+        }
+      });
+
+      document.getElementById("btnLoad").addEventListener("click", () => {
+        const html = localStorage.getItem(STORAGE_KEY);
+        if (!html) {
+          setStatus("没有找到本地存稿", "err");
+          return;
+        }
+        if (!confirm("用本地存稿覆盖当前内容？")) return;
+        doc.innerHTML = html;
+        setStatus("已恢复本地存稿", "ok");
+      });
+
+      document.getElementById("btnExportJson").addEventListener("click", () => {
+        const payload = {
+          title: "播客大纲 · AI 对互联网职场人的影响",
+          exportedAt: new Date().toISOString(),
+          html: doc.innerHTML,
+          text: doc.innerText
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "podcast-ai-workplace-outline.json";
+        a.click();
+        URL.revokeObjectURL(a.href);
+        setStatus("已导出 JSON", "ok");
+      });
+
+      document.getElementById("importJson").addEventListener("change", (ev) => {
+        const file = ev.target.files && ev.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const data = JSON.parse(reader.result);
+            if (!data.html) throw new Error("JSON 中缺少 html 字段");
+            if (!confirm("导入将覆盖当前正文，继续？")) return;
+            doc.innerHTML = data.html;
+            setStatus("已导入：" + file.name, "ok");
+          } catch (e) {
+            setStatus("导入失败：" + e.message, "err");
+          }
+        };
+        reader.readAsText(file);
+        ev.target.value = "";
+      });
+
+      document.getElementById("btnPdf").addEventListener("click", () => {
+        const wasEdit = editOn;
+        if (wasEdit) {
+          editOn = false;
+          syncEditMode();
+        }
+        setStatus("请在打印对话框中选择「存储为 PDF」", "ok");
+        setTimeout(() => {
+          window.print();
+          if (wasEdit) {
+            editOn = true;
+            syncEditMode();
+          }
+        }, 50);
+      });
+
+      // Cmd/Ctrl+S 保存
+      document.addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") {
+          e.preventDefault();
+          document.getElementById("btnSave").click();
+        }
+      });
+
+      // 首次尝试加载本地（不打扰）
+      syncEditMode();
+      const cached = localStorage.getItem(STORAGE_KEY);
+      if (cached) {
+        setStatus("检测到本地存稿，可点「恢复本地稿」", "ok");
+      }
+    })();
+  </script>
+</body>
+</html>

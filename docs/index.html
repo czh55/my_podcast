@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>才岁播客 · 十年一期</title>
+  <title>变化 · 播客</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -395,15 +395,15 @@
 </head>
 <body>
   <header class="hero">
-    <div class="eyebrow">Decade Podcast Archive</div>
-    <h1>才岁</h1>
-    <p>每个人都有波澜壮阔的经历，但需要你来挖掘</p>
+    <div class="eyebrow">Podcast on Change</div>
+    <h1>变化</h1>
+    <p>AI 在变，年龄在变，身份在变。把变化讲清楚，焦虑就少一点。</p>
   </header>
 
   <div class="stats-bar" id="stats">
-    <div class="stat-item"><div class="stat-num" id="stat-series">0</div><div class="stat-label">系列</div></div>
-    <div class="stat-item"><div class="stat-num" id="stat-eps">0</div><div class="stat-label">计划篇目</div></div>
-    <div class="stat-item"><div class="stat-num" id="stat-ready">0</div><div class="stat-label">已有大纲</div></div>
+    <div class="stat-item"><div class="stat-num" id="stat-series">0</div><div class="stat-label">变化类型</div></div>
+    <div class="stat-item"><div class="stat-num" id="stat-eps">0</div><div class="stat-label">篇目</div></div>
+    <div class="stat-item"><div class="stat-num" id="stat-ready">0</div><div class="stat-label">已录制</div></div>
   </div>
 
   <div class="controls" id="chips"></div>
@@ -423,15 +423,17 @@
   </div>
   <div class="grid" id="grid"></div>
 
-  <footer>GitHub Pages · docs/ · 结构对齐 bilibili-workshop 索引墙</footer>
+  <footer>变化播客 · GitHub Pages · docs/ · 录制方法见 <a href="WORKFLOW.md" style="color:inherit">WORKFLOW.md</a></footer>
 
   <script>
     const STATUS_LABEL = {
       outline: '大纲',
       draft: '草稿',
+      edited: '已剪辑',
       published: '已发布',
       slot: '空位'
     };
+    const RECORDED = new Set(['edited', 'published']);
 
     let seriesList = [];
     let episodes = [];
@@ -498,12 +500,12 @@
       document.getElementById('stat-series').textContent = seriesList.length;
       document.getElementById('stat-eps').textContent = episodes.length;
       document.getElementById('stat-ready').textContent =
-        episodes.filter(e => e.status !== 'slot').length;
+        episodes.filter(e => RECORDED.has(e.status)).length;
     }
 
     function renderChips() {
       const el = document.getElementById('chips');
-      const items = [{ id: 'all', title: '全部系列' }, ...seriesList];
+      const items = [{ id: 'all', title: '全部变化' }, ...seriesList];
       el.innerHTML = items.map(s =>
         `<button class="chip ${activeSeries === s.id ? 'active' : ''}" data-id="${s.id}">${s.title}</button>`
       ).join('');
@@ -517,10 +519,11 @@
       el.innerHTML = seriesList.map(s => {
         const active = activeSeries === s.id ? 'active' : '';
         const on = s.status === 'active';
+        const count = episodes.filter(e => e.series === s.id).length;
         return `
           <article class="series-card ${active}" data-id="${s.id}" style="--accent-color:${s.cover_accent || '#2dd4a8'}">
             <h2>${s.title}</h2>
-            <div class="series-meta">${s.decade_label} · ${s.age_span} · ${s.planned_episodes} 篇 · ${s.interval}</div>
+            <div class="series-meta">${s.kind_label} · ${count} 篇 · ${s.interval}</div>
             <p>${s.theme}</p>
             <div class="series-status ${on ? 'on' : ''}">${on ? '进行中' : '计划中'}</div>
           </article>`;
@@ -539,11 +542,11 @@
       const sub = document.getElementById('list-sub');
       if (activeSeries === 'all') {
         title.textContent = '全部篇目';
-        sub.textContent = `${list.length} 篇`;
+        sub.textContent = `${list.length} 篇 · 按发布顺序`;
       } else {
         const s = seriesList.find(x => x.id === activeSeries);
         title.textContent = s ? s.title : activeSeries;
-        sub.textContent = `${list.length} / 12 · ${s ? s.theme : ''}`;
+        sub.textContent = `${list.length} 篇`;
       }
 
       const grid = document.getElementById('grid');
@@ -558,13 +561,15 @@
         const tagHtml = (ep.tags || []).slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('');
         const inner = `
           <div class="ep-top">
-            <span class="ep-no">${ep.series_title || ''} · EP${String(ep.episode).padStart(2, '0')}</span>
+            <span class="ep-no">EP${String(ep.episode).padStart(2, '0')} · ${ep.series_title || ''}</span>
             <span class="ep-status ${isSlot ? 'slot' : ''}">${STATUS_LABEL[ep.status] || ep.status}</span>
           </div>
           <h4>${ep.title}</h4>
           <p class="summary">${ep.summary || ''}</p>
           <div class="tags">${tagHtml}</div>
-          ${ep.planned_month ? `<div class="tag" style="align-self:flex-start;margin-top:4px">计划 ${ep.planned_month}</div>` : ''}
+          ${RECORDED.has(ep.status) && ep.duration
+            ? `<div class="tag" style="align-self:flex-start;margin-top:4px">时长 ${ep.duration} · ${ep.date}</div>`
+            : ep.planned_month ? `<div class="tag" style="align-self:flex-start;margin-top:4px">计划 ${ep.planned_month}</div>` : ''}
         `;
         if (href && !isSlot) {
           return `<a class="ep-card" href="${href}">${inner}</a>`;
@@ -582,10 +587,7 @@
       seriesList = await sRes.json();
       episodes = await eRes.json();
       principles = await pRes.json();
-      episodes.sort((a, b) => {
-        if (a.series !== b.series) return a.series.localeCompare(b.series);
-        return a.episode - b.episode;
-      });
+      episodes.sort((a, b) => a.episode - b.episode);
       renderStats();
       renderPrinciples();
       setSeries(qsSeries(), false);
