@@ -153,7 +153,7 @@ def main():
     for i, ch in enumerate(chapters):
         ch["end"] = chapters[i + 1]["at"] if i + 1 < len(chapters) else round(edited_total, 2)
 
-    meta = [";FFMETADATA1", f"title=变化 EP01｜AI 的变化", "artist=变化播客"]
+    meta = [";FFMETADATA1", f"title=红豆牛奶不加糖 EP01｜AI 的变化", "artist=红豆牛奶不加糖"]
     for ch in chapters:
         meta += ["[CHAPTER]", "TIMEBASE=1/1000", f"START={int(ch['at'] * 1000)}",
                  f"END={int(ch['end'] * 1000)}", f"title={ch['title']}"]

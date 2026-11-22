@@ -3,21 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>播客大纲 · AI 对互联网职场人的影响</title>
+  <title>红豆牛奶不加糖 · EP01 录前大纲 · AI 对互联网职场人的影响</title>
+  <meta name="theme-color" content="#fbf4e8" />
+  <link rel="icon" type="image/png" href="../assets/favicon-64.png" />
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+  <meta property="og:site_name" content="红豆牛奶不加糖" />
+  <meta property="og:title" content="EP01 录前大纲 · AI 对互联网职场人的影响 | 红豆牛奶不加糖" />
+  <meta property="og:description" content="产品 × 研发对谈的录前大纲：工作流、提效真相、新问题、职业下一站。" />
+  <meta property="og:image" content="https://czh55.github.io/my_podcast/assets/og.jpg" />
   <style>
     :root {
-      --bg: #f6f3ee;
-      --paper: #fffdf9;
-      --ink: #1c1917;
-      --muted: #78716c;
-      --line: #e7e0d6;
-      --accent: #0f766e;
-      --accent-soft: #ccfbf1;
-      --warn: #9a3412;
-      --warn-soft: #ffedd5;
-      --insert: #1d4ed8;
-      --insert-soft: #dbeafe;
-      --shadow: 0 12px 40px rgba(28, 25, 23, 0.08);
+      --bg: #fbf4e8;
+      --paper: #fffdf8;
+      --ink: #3b2a22;
+      --muted: #8a7262;
+      --line: #eadcc8;
+      --accent: #8e2f2c;
+      --accent-soft: #f4e2dc;
+      --warn: #9a5a1c;
+      --warn-soft: #fbeedd;
+      --insert: #7a5638;
+      --insert-soft: #f3e7d6;
+      --shadow: 0 12px 40px rgba(91, 60, 40, 0.08);
       --radius: 14px;
       --font: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
       --mono: "SF Mono", "Menlo", "Consolas", monospace;
@@ -30,8 +37,6 @@
       font-family: var(--font);
       color: var(--ink);
       background:
-        radial-gradient(1200px 600px at 10% -10%, #d1fae5 0%, transparent 55%),
-        radial-gradient(900px 500px at 100% 0%, #ffedd5 0%, transparent 50%),
         var(--bg);
       line-height: 1.65;
     }
@@ -50,11 +55,23 @@
       border-bottom: 1px solid var(--line);
     }
     .toolbar .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-weight: 700;
       margin-right: auto;
       font-size: 14px;
       letter-spacing: 0.02em;
+      color: var(--ink);
+      text-decoration: none;
     }
+    .toolbar .brand img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+    }
+    .toolbar .brand small { font-weight: 500; color: var(--muted); }
     .toolbar .hint {
       width: 100%;
       font-size: 12px;
@@ -119,7 +136,7 @@
       outline: 1px dashed transparent;
     }
     body.edit-mode .editable-block:hover {
-      outline: 1px dashed #99f6e4;
+      outline: 1px dashed #c9a27e;
       outline-offset: 4px;
     }
 
@@ -209,7 +226,7 @@
       margin: 12px 0;
       padding: 14px 16px;
       border-left: 4px solid var(--accent);
-      background: #f0fdfa;
+      background: #fbf1ec;
       border-radius: 0 10px 10px 0;
       page-break-inside: avoid;
     }
@@ -224,7 +241,7 @@
     .insert {
       margin: 16px 0;
       padding: 14px 16px;
-      border: 1px solid #bfdbfe;
+      border: 1px solid #e3cfb5;
       background: var(--insert-soft);
       border-radius: 12px;
       page-break-inside: avoid;
@@ -240,7 +257,7 @@
       margin: 12px 0;
       padding: 14px 16px;
       background: var(--warn-soft);
-      border: 1px solid #fed7aa;
+      border: 1px solid #efd7b8;
       border-radius: 12px;
       font-size: 13.5px;
       page-break-inside: avoid;
@@ -330,7 +347,7 @@
 </head>
 <body>
   <div class="toolbar no-print">
-    <div class="brand">播客大纲编辑器</div>
+    <a class="brand" href="../index.html"><img src="../assets/apple-touch-icon.png" alt="" />红豆牛奶不加糖 <small>· 录前大纲编辑器</small></a>
     <button type="button" class="ghost" id="btnEdit" title="切换编辑模式">编辑模式：开</button>
     <button type="button" class="ghost" id="btnSave">保存到浏览器</button>
     <button type="button" class="ghost" id="btnLoad">恢复本地稿</button>
@@ -344,7 +361,7 @@
   <div class="wrap">
     <article class="doc" id="doc" contenteditable="true" spellcheck="true">
       <header>
-        <p><span class="pill">播客节目录制大纲</span></p>
+        <p><span class="pill">红豆牛奶不加糖 · EP01 录制大纲</span></p>
         <h1>AI 对互联网职场人的影响<br />产品 × 研发对谈</h1>
         <div class="meta">
           <span>时长建议：25–35 分钟</span>

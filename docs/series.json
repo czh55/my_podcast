@@ -7,7 +7,7 @@
     "status": "active",
     "interval": "每月1篇",
     "theme": "AI 正在改写工作方式。不贩卖替代焦虑，只讲一线的人到底遇到了什么、怎么应对。",
-    "cover_accent": "#2dd4a8"
+    "cover_accent": "#8e2f2c"
   },
   {
     "id": "age",
@@ -17,7 +17,7 @@
     "status": "planned",
     "interval": "每月1篇",
     "theme": "原「才岁」系列：才30、才40、才50。每个十年都有它的结构性压力，把压力拆开看，焦虑就小一号。",
-    "cover_accent": "#e8b86d"
+    "cover_accent": "#c9a27e"
   },
   {
     "id": "identity",
@@ -27,6 +27,6 @@
     "status": "active",
     "interval": "每月1篇",
     "theme": "成为父母、换赛道、离开大厂……身份切换时，旧规则失效、新规则没人教。我们把它说清楚。",
-    "cover_accent": "#7c9cd6"
+    "cover_accent": "#7d8a5e"
   }
 ]

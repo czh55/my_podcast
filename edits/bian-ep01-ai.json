@@ -19,6 +19,7 @@
     { "start": 3952.00, "end": 3969.90, "why": "起头两次没说完：“但是我们其实可以以这个为一个机会… 和某一个”" }
   ],
   "glossary": {
+    "布加糖": "不加糖",
     "Germany 3": "Gemini 3", "Germany": "Gemini", "G erm any": "Gemini", "JPG": "GPT", "CHATJBT": "ChatGPT",
     "Cloud": "Claude", "cloud": "Claude", "Coder": "Qoder", "拍CHARM": "PyCharm", "CHARM": "PyCharm", "ID2家": "JetBrains 家",
     "通用ID": "通用 IDE", "原来的ID": "原来的 IDE",
